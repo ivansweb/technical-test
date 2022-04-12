@@ -13,21 +13,24 @@ We'd like to be able to see components and their grades (measurement of damage/w
 
 A typical wind farm, in terms of data, looks something like this:
 - Wind Farm
-    - Turbine
+    - Turbine 1
         - Blade
         - Rotor
         - Hub
         - Generator
-    - Turbine
+        - etc
+    - Turbine 2
         - Blade
         - Rotor
         - Hub
         - Generator
-    - Turbine
+        - etc
+    - Turbine 3
         - Blade
         - Rotor
         - Hub
         - Generator
+        - etc
 
 Don't worry about using real names for components or accurate looking grades, we're more interested in how you structure the application and how you present the data.
 
