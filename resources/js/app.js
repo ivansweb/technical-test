@@ -8,7 +8,7 @@ import Layout from './Shared/LayoutDefault.vue';
 createInertiaApp({
     resolve: name => {
      let page = require(`./Pages/${name}`).default;
-     page.layout = Layout;
+     page.layout ??= Layout;
      return page;
     },
 
@@ -19,4 +19,7 @@ createInertiaApp({
     },
 });
 
-InertiaProgress.init({ color: '#4B5563' });
+InertiaProgress.init({ 
+    color: '#4B5563',
+    showSpinner: true,
+});
