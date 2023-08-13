@@ -31,9 +31,9 @@
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ row.id }}</td>
                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ row.name }}</td>
                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                  >Edit<span class="sr-only">, {{ row.id }}</span></a
-                  >
+                  <Link :href="`${tableDetails.editlink}/${row.id}`" class="text-indigo-600 hover:text-indigo-900">
+                    Edit
+                  </Link>
                 </td>
               </tr>
               </tbody>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import { Link } from '@inertiajs/vue3'
 
 export default {
   name: 'Registers/Farms/Index',
@@ -57,7 +58,7 @@ export default {
   },
 
   components: {
-
+    Link
   },
 
   data() {

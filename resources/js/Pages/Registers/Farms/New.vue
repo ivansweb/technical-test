@@ -29,7 +29,9 @@
             </div>
             <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
               <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
-              <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+              <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                {{ farm ? 'Update' : 'Save' }}
+              </button>
             </div>
           </form>
         </div>
@@ -48,22 +50,41 @@ export default {
   },
 
   props: {
-
+    farm: {
+      type: Array
+    }
   },
 
   data() {
     return {
       form: {
-        name: '',
+        name: this.farm ? this.farm.name : ''
       },
     }
   },
 
   methods: {
     save: function () {
-      this.$inertia.post('/registers/farms/', {
+      let data = {
         name: this.form.name
-      });
+      };
+
+      if(this.farm ){
+        data.id = this.farm.id;
+        this.redirect('update', data);
+      } else{
+        this.redirect('save', data);
+      }
+
+    },
+
+    redirect: function (method, data) {
+      if( method === 'update'){
+        this.$inertia.put(`/registers/farms/edit/${data.id}`, data);
+        return;
+      }
+
+      this.$inertia.post('/registers/farms/', data);
     }
   }
 

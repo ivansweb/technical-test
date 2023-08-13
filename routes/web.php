@@ -32,6 +32,8 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
             Route::get('/', [FarmController::class, 'index'])->name('farms.list');
             Route::get('/new', [FarmController::class, 'create'])->name('farms.new');
             Route::post('/', [FarmController::class, 'store'])->name('farms.store');
+            Route::get('/edit/{id}', [FarmController::class, 'show'])->name('farms.show');
+            Route::put('/edit/{id}', [FarmController::class, 'update'])->name('farms.update');
         });
     });
 

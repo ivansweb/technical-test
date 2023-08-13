@@ -86,11 +86,11 @@ abstract class Repository
      */
     public function update(array $params = []): mixed
     {
-        if (empty($params['uuid'])) {
-            throw new Exception('Uuid is required to update');
+        if (empty($params['id'])) {
+            throw new Exception('Id is required to update');
         }
 
-        $vo = $this->model->withTrashed()->where('id', $params['id'])->first();
+        $vo = $this->model->where('id', $params['id'])->first();
 
         if (is_null($vo)) {
             throw new Exception('No entity found');

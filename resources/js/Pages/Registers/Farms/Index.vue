@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       tableDetails: {
+        editlink: '/registers/farms/edit',
         title: 'Farm List',
         description: 'A list of all the farms.',
         button: {

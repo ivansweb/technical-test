@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\FarmService;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -46,10 +47,10 @@ class FarmController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $payload = $request->all();
         $this->service->create($payload);
@@ -59,35 +60,31 @@ class FarmController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
+     * @throws Exception
      */
-    public function show($id)
+    public function show(int $id): Response
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $farm = $this->service->getById($id);
+        return Inertia::render('Registers/Farms/New',[
+            'farm' => $farm
+            ],
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws Exception
      */
-    public function update(Request $request, $id)
+    public function update(Request $request): RedirectResponse
     {
-        //
+        $payload = $request->all();
+        $this->service->update($payload);
+        return to_route('farms.list');
     }
 
     /**
