@@ -56,11 +56,20 @@ class UserService extends Service
      * verify auth credentials
      *
      * @param array $params
-     * @return
      */
     public function signin(array $params = [])
     {
         return $this->repository->signin($params);
+    }
+
+    /**
+     * sign out the user
+     *
+     * @return bool
+     */
+    public function signout(): bool
+    {
+        return $this->repository->signout();
     }
 
 

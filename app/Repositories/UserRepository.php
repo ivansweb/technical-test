@@ -60,4 +60,15 @@ class UserRepository extends Repository
 
         return false;
     }
+
+    /**
+     * sign out the user
+     *
+     * @return bool
+     */
+    public function signout(): bool
+    {
+        Auth::logout();
+        return true;
+    }
 }
