@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\FarmRepository;
+use Exception;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class FarmService
@@ -15,4 +17,15 @@ class FarmService extends Service
         parent::__construct($repository);
     }
 
+    /**
+     * Get entity by uuid
+     *
+     * @param int|null $id
+     * @return Model
+     * @throws Exception
+     */
+    public function getById(int $id = null): Model
+    {
+        return $this->repository->getById($id);
+    }
 }

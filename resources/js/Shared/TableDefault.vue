@@ -27,11 +27,12 @@
               </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 bg-white">
-              <tr v-for="row in tableDetails.data" :key="row.id">
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ row.id }}</td>
-                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ row.name }}</td>
+              <tr v-for="(row, index) in tableDetails.rows" :key="index">
+
+                <td v-for="r in row" :key="row.id"
+                    class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ r }}</td>
                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                  <Link :href="`${tableDetails.editlink}/${row.id}`" class="text-indigo-600 hover:text-indigo-900">
+                  <Link :href="`${tableDetails.editlink}/${row[0]}`" class="text-indigo-600 hover:text-indigo-900">
                     Edit
                   </Link>
                 </td>
@@ -53,7 +54,7 @@ export default {
 
   props: {
     tableDetails: {
-      type: Array,
+      type: Object,
     }
   },
 

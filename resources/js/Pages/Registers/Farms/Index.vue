@@ -25,9 +25,13 @@ export default {
 
   props: {
     farms: {
-      type: Array,
+      type: Object,
       required: true
     }
+  },
+
+  async created() {
+    this.tableDetails.rows = await this.getRows();
   },
 
   data() {
@@ -44,10 +48,21 @@ export default {
           '#ID',
           'Name'
         ],
-        data: this.farms.data
+        rows: []
       }
     }
-  }
+  },
+
+  methods: {
+    getRows: function () {
+      return this.farms && this.farms.data
+          ? this.farms.data.map(turbine => ({
+            0: turbine.id,
+            1: turbine.name
+          }))
+          : [];
+    }
+  },
 }
 
 </script>
