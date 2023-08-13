@@ -19,9 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('farm_id')->index();
             $table->foreign('farm_id')->references('id')->on('farms')->onDelete('restrict')->onUpdate('cascade');
             $table->string('serial_number')->unique();
-            $table->string('model');
+            $table->string('model')->nullable();
             $table->string('manufacturer')->nullable();
-            $table->date('instalation_date');
+            $table->date('installation_date');
             $table->timestamps();
             $table->softDeletes();
         });

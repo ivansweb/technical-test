@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Component;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,10 +13,13 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
             FarmSeeder::class,
+            TurbineSeeder::class,
+            GradeSeeder::class,
+            ComponentSeeder::class
         ]);
     }
 }
