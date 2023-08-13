@@ -73,10 +73,6 @@ abstract class Repository
      */
     public function create(array $params = []): mixed
     {
-
-        dd(
-            $params
-        );
         $this->model->fill($params);
         return $this->model->create($params);
     }
