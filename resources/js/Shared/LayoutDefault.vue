@@ -73,14 +73,11 @@
       </DisclosurePanel>
     </Disclosure>
 
-    <header class="bg-white shadow">
-      <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-      </div>
-    </header>
     <main>
       <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-        <slot />
+        <div class="container mx-auto sm:px-6 lg:px-8">
+          <slot />
+        </div>
       </div>
     </main>
   </div>
@@ -109,11 +106,12 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
     data() {
       return {
         navigation: [
-          {name: 'Dashboard', href: '#', current: true},
-          {name: 'Team', href: '#', current: false},
+          {name: 'Dashboard', href: '/', current: this.$page.component.startsWith('Dashboard')},
+          {name: 'Farms', href: '/registers/farms', current: this.$page.component.startsWith('Registers/Farms')},
+          {name: 'Inspections', href: '/inspections', current: this.$page.component.startsWith('Inspections')},
         ],
         userNavigation: [
-          {name: 'Sign out', href: '#'},
+          {name: 'Sign out', href: '/signout'},
         ],
         user: {
           name: 'Chelsea Hagon',

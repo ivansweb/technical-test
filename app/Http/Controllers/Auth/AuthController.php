@@ -52,9 +52,9 @@ class AuthController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreUserRequest $request
-     * @return RedirectResponse|Response
+     * @return RedirectResponse
      */
-    public function store(StoreUserRequest $request): RedirectResponse|Response
+    public function store(StoreUserRequest $request): RedirectResponse
     {
         $payload = $request->validated();
 
@@ -62,7 +62,7 @@ class AuthController extends Controller
             return to_route('users.create');
         }
 
-        return Inertia::render('Dashboard');
+        return to_route('dashboard');
     }
 
     /**
@@ -78,4 +78,17 @@ class AuthController extends Controller
 
         return to_route('dashboard');
     }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function signout(Request $request): RedirectResponse
+    {
+        $this->service->signout();
+
+        return to_route('dashboard');
+    }
+
+
 }
