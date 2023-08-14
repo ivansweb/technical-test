@@ -18,7 +18,7 @@ class FarmService extends Service
     }
 
     /**
-     * Get entity by uuid
+     * Get entity by id
      *
      * @param int|null $id
      * @return Model

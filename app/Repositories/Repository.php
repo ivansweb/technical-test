@@ -111,7 +111,7 @@ abstract class Repository
     public function delete(string $id = null): mixed
     {
         if (is_null($id)) {
-            throw new Exception('Uuid is required to delete');
+            throw new Exception('Id is required to delete');
         }
 
         return $this->model->query()->where('id', $id)->delete();

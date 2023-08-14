@@ -1,6 +1,10 @@
 <?php
 
-use App\Http\Controllers\{Auth\AuthController, DashboardController, FarmController, TurbineController};
+use App\Http\Controllers\{Auth\AuthController,
+    DashboardController,
+    FarmController,
+    InspectionController,
+    TurbineController};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
@@ -45,6 +49,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::post('/', [TurbineController::class, 'store'])->name('turbines.store');
             Route::put('/edit/{id}', [TurbineController::class, 'update'])->name('turbines.update');
         });
+    });
+
+    /**
+     * Turbines
+     */
+    Route::group(['prefix' => 'inspections'], function () {
+        Route::get('/', [InspectionController::class, 'index'])->name('inspections');
+        Route::post('/', [InspectionController::class, 'index'])->name('inspections.list');
+        Route::get('/new', [InspectionController::class, 'create'])->name('inspections.new');
     });
 
 });

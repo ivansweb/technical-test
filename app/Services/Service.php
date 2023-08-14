@@ -56,15 +56,15 @@ abstract class Service
     }
 
     /**
-     * Delete an entity by uuid
+     * Delete an entity by id
      *
-     * @param string|null $uuid
+     * @param string|null $id
      * @return mixed
      * @throws Exception
      */
-    public function delete(string $uuid = null): mixed
+    public function delete(string $id = null): mixed
     {
-        return $this->repository->delete($uuid);
+        return $this->repository->delete($id);
     }
 
     /**
@@ -79,7 +79,7 @@ abstract class Service
     }
 
     /**
-     * Get entity by uuid
+     * Get entity by id
      *
      * @param int|null $id
      * @return mixed
