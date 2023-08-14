@@ -1,15 +1,15 @@
 <?php
 
-use App\Http\Controllers\{Auth\AuthController, DashboardController, FarmController};
+use App\Http\Controllers\{Auth\AuthController, DashboardController, FarmController, TurbineController};
 use Illuminate\Support\Facades\Route;
 
-Route::get('/login', [AuthController::class,'index'])->name('login');
-Route::post('/signin', [AuthController::class,'signin'])->name('signin');
-Route::get('/signout', [AuthController::class,'signout'])->name('signout');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/signin', [AuthController::class, 'signin'])->name('signin');
+Route::get('/signout', [AuthController::class, 'signout'])->name('signout');
 Route::get('/register', [AuthController::class, 'create'])->name('user.create');
 Route::post('/user/new', [AuthController::class, 'store'])->name('user.store');
 
-Route::group(['middleware' => 'auth:sanctum'], function() {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     /**
      * Auth
      */
@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
      */
     Route::group(['prefix' => 'registers'], function () {
         /**
-         * farms
+         * Farms
          */
         Route::group(['prefix' => 'farms'], function () {
             Route::get('/', [FarmController::class, 'index'])->name('farms.list');
@@ -35,7 +35,16 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
             Route::get('/edit/{id}', [FarmController::class, 'show'])->name('farms.show');
             Route::put('/edit/{id}', [FarmController::class, 'update'])->name('farms.update');
         });
-    });
 
+        /**
+         * Turbines
+         */
+        Route::group(['prefix' => 'turbines'], function () {
+            Route::get('/', [TurbineController::class, 'index'])->name('turbines.list');
+            Route::get('/new/{id?}', [TurbineController::class, 'create'])->name('turbines.new');
+            Route::post('/', [TurbineController::class, 'store'])->name('turbines.store');
+            Route::put('/edit/{id}', [TurbineController::class, 'update'])->name('turbines.update');
+        });
+    });
 
 });

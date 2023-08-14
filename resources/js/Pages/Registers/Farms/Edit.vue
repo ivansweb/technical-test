@@ -44,7 +44,7 @@
           </form>
         </div>
       </div>
-      
+
       <div v-show="farm">
         <div class="relative my-5">
           <div class="absolute inset-0 flex items-center" aria-hidden="true">
@@ -98,12 +98,15 @@ export default {
         name: this.farm ? this.farm.name : ''
       },
       tableDetails: {
-        editlink: '/registers/turbines/edit',
+        editlink: '/registers/turbines/new',
         title: 'Turbines List',
         description: 'A list of all turbnines of the farm.',
         button: {
           label: 'New Turbine',
-          action: '/registers/turbines/new'
+          action: '/registers/turbines/new',
+          data: {
+            farmId: this.farm ? this.farm.id : null
+          }
         },
         columns: [
           '#ID',

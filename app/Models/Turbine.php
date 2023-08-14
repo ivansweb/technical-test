@@ -15,7 +15,7 @@ class Turbine extends Model
         'model',
         'manufacturer',
         'serial_number',
-        'instalation_date',
+        'installation_date',
     ];
 
     public function farm(): BelongsTo
