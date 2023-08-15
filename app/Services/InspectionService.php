@@ -69,21 +69,30 @@ class InspectionService extends Service
     /**
      * @throws Exception
      */
-    public function getFarm(int $farmId): array
+    public function getFarm(int $farmId, bool $fullData = false): array
     {
         $farm = $this->farmService->getById($farmId);
 
-        return [
-            'id' => $farm->id,
-            'name' => $farm->name,
-            'turbines' => $farm->turbines->map(function ($turbine) {
-                return [
-                    'id' => $turbine->id,
-                    'name' => $turbine->id . " - " . $turbine->model,
-                    'serial_number' => $turbine->serial_number,
-                ];
-            })
-        ];
+        if ($fullData){
+            return [
+                'id' => $farm->id,
+                'name' => $farm->name,
+            ];
+        }else{
+            return [
+                'id' => $farm->id,
+                'name' => $farm->name,
+                'turbines' => $farm->turbines->map(function ($turbine) {
+                    return [
+                        'id' => $turbine->id,
+                        'name' => $turbine->id . " - " . $turbine->model,
+                        'serial_number' => $turbine->serial_number,
+                    ];
+                })
+            ];
+        }
+
+
     }
 
     /**

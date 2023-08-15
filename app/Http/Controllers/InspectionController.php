@@ -33,7 +33,32 @@ class InspectionController extends Controller
     {
         $farmId = $request->get('farmId');
         $farms = $this->service->getFarmslist();
-        $inspections = $farmId ? $this->service->getInspectionsByFarm($farmId) : null;
+
+        if(!is_null($farmId)){
+            $farm = $this->service->getFarm($farmId);
+        }
+
+
+        $inspections = [
+            'farmId' => $farmId ?? 0,
+            'list' => [],
+            'farmName' => $farm['name'] ?? ''
+        ];
+
+        if ($inspections['farmId'] !== 0) {
+            $inspectionsList = $this->service->getInspectionsByFarm($inspections['farmId']);
+
+            if (!$inspectionsList->isEmpty()) {
+                $inspections['list'] = $inspectionsList->toArray();
+                $inspections['farmName'] = $inspectionsList[0]['farm_name'];
+            }
+        }
+
+//        dd(
+//            [
+//                'inspections' => $inspections,
+//            ]
+//        );
 
         return Inertia::render('Inspections/Index', [
             'inspections' => $inspections,
@@ -53,7 +78,7 @@ class InspectionController extends Controller
     public function create(Request $request): Response
     {
         $farmId = $request->get('farmId');
-        $farm = $this->service->getFarm($farmId);
+        $farm = $this->service->getFarm($farmId, true);
         $components = $this->service->getComponents();
         $grades = $this->service->getGrades();
 

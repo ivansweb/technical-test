@@ -82,6 +82,7 @@
                                   <span
                                       :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-600' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
                                       aria-hidden="true"/>
+
                                 </div>
                               </RadioGroupOption>
                             </div>

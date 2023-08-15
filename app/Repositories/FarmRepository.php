@@ -39,7 +39,7 @@ class FarmRepository extends Repository
             ->with('turbines')
             ->find($id);
     }
-    
+
     public function getFarmWithRelations(int $id): Model
     {
         return $this->model->with('turbines')->find($id);
