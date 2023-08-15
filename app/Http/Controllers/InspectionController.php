@@ -54,12 +54,6 @@ class InspectionController extends Controller
             }
         }
 
-//        dd(
-//            [
-//                'inspections' => $inspections,
-//            ]
-//        );
-
         return Inertia::render('Inspections/Index', [
             'inspections' => $inspections,
             'farms' => $farms
@@ -99,7 +93,9 @@ class InspectionController extends Controller
     {
         $payload = $request->all();
         $this->service->create($payload);
-        return to_route('inspections.list');
+        return to_route('inspections.list', [
+            'farmId' => $payload['farmId']
+        ]);
     }
 
     /**

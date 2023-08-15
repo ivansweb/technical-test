@@ -52,12 +52,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 
     /**
-     * Turbines
+     * Inspections
      */
     Route::group(['prefix' => 'inspections'], function () {
         Route::get('/', [InspectionController::class, 'index'])->name('inspections');
         Route::post('/', [InspectionController::class, 'index'])->name('inspections.list');
         Route::get('/new', [InspectionController::class, 'create'])->name('inspections.new');
+        Route::post('/store', [InspectionController::class, 'store'])->name('inspections.store');
     });
 
 });

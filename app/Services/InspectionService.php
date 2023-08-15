@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Repositories\ComponentGradeRepository;
 use App\Repositories\InspectionRepository;
+use DB;
 use Exception;
 
 /**
@@ -15,19 +17,50 @@ class InspectionService extends Service
     public ComponentService $componentService;
     public GradeService $gradeService;
 
+    public ComponentGradeRepository $componentGradeRepository;
+
 
     public function __construct(
         InspectionRepository $repository,
         FarmService $farmService,
         ComponentService $componentService,
-        GradeService $gradeService
+        GradeService $gradeService,
+        ComponentGradeRepository $componentGradeRepository
     )
     {
         $this->farmService = $farmService;
         $this->componentService = $componentService;
         $this->gradeService = $gradeService;
+        $this->componentGradeRepository = $componentGradeRepository;
 
         parent::__construct($repository);
+    }
+
+    public function create(array $params = []): mixed
+    {
+        $turbineId = $params['turbineId'];
+        $components = $params['components'];
+
+
+        return DB::transaction(function () use ($turbineId, $components) {
+            // Crie a inspeção
+            $inspection = $this->repository->create([
+                'turbine_id' => $turbineId,
+                'inspection_date' => now(),
+            ]);
+
+            // Crie as notas dos componentes associadas à inspeção
+            $grades = [];
+            foreach ($components as $component) {
+                $grades[] = $this->componentGradeRepository->create([
+                    'inspection_id' => $inspection->id,
+                    'component_id' => $component['id'],
+                    'grade_id' => $component['selectedGrade']['id']
+                ]);
+            }
+
+            return $inspection;
+        });
     }
 
     public function getFarmslist()
@@ -73,7 +106,7 @@ class InspectionService extends Service
     {
         $farm = $this->farmService->getById($farmId);
 
-        if ($fullData){
+        if (!$fullData){
             return [
                 'id' => $farm->id,
                 'name' => $farm->name,
@@ -102,4 +135,5 @@ class InspectionService extends Service
     {
         return $this->repository->getInspectionsByFarm($id);
     }
+
 }

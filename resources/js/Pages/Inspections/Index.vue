@@ -203,7 +203,7 @@ export default {
     getInspectionsRows(newInspections) {
       console.log('getInspectionsRows', newInspections);
       return newInspections.list.map(inspection => ({
-            0: inspection.id,
+            0: inspection.inspection_id,
             1: inspection.turbine,
             2: inspection.inspection_date,
           }))

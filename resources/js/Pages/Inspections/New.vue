@@ -60,7 +60,7 @@
                         {{ component.name }}
                       </p>
                       <div class="flex shrink-0 items-center gap-x-6">
-                          <RadioGroup v-model="selectedGrade">
+                          <RadioGroup v-model="component.selectedGrade">
 
                             <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-5 sm:gap-x-4">
                               <RadioGroupOption as="template" v-for="grade in grades" :key="grade.id" :value="grade"
@@ -149,7 +149,13 @@ export default {
 
   methods: {
     nextStep: function () {
-      // this.$inertia.post('/registers/farms/', data);
+      const data = {
+        farmId: this.farm.id,
+        turbineId: this.selectedTurbine.id,
+        components: this.components,
+      }
+     
+      this.$inertia.post('/inspections/store', data);
     }
   }
 

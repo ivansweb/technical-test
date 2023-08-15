@@ -13,6 +13,7 @@ class ComponentGrade extends Model
     protected $fillable = [
         'inspection_id',
         'component_id',
+        'grade_id',
     ];
 
     public function inspection(): BelongsTo
@@ -23,5 +24,10 @@ class ComponentGrade extends Model
     public function component(): BelongsTo
     {
         return $this->belongsTo(Component::class, 'component_id');
+    }
+
+    public function grade(): BelongsTo
+    {
+        return $this->belongsTo(Grade::class, 'grade_id');
     }
 }
