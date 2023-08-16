@@ -1,6 +1,5 @@
 <template>
-    <h1>hello world</h1>
-    {{ laravelVersion }}
+    <h1>hello Cyberhawk!</h1>
 
 </template>
 
@@ -11,7 +10,7 @@
     name: 'Welcome',
 
     props: {
-      'laravelVersion': String
+
     }
   }
 
