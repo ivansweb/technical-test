@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Models\Inspection;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -47,6 +48,15 @@ class InspectionRepository extends Repository
             ->join('farms', 'farms.id', '=', 'turbines.farm_id')
             ->where('farms.id', $id)
             ->get();
+    }
+
+    public function getById(int $id): Model
+    {
+        return $this->model
+            ->query()
+            ->with('turbine')
+            ->where('id', $id)
+            ->first();
     }
 
 }

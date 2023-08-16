@@ -32,31 +32,22 @@ class InspectionController extends Controller
     public function index(Request $request): Response
     {
         $farmId = $request->get('farmId');
-        $farms = $this->service->getFarmslist();
 
+        $data = [];
         if(!is_null($farmId)){
-            $farm = $this->service->getFarm($farmId);
-        }
-
-
-        $inspections = [
-            'farmId' => $farmId ?? 0,
-            'list' => [],
-            'farmName' => $farm['name'] ?? ''
-        ];
-
-        if ($inspections['farmId'] !== 0) {
-            $inspectionsList = $this->service->getInspectionsByFarm($inspections['farmId']);
-
-            if (!$inspectionsList->isEmpty()) {
-                $inspections['list'] = $inspectionsList->toArray();
-                $inspections['farmName'] = $inspectionsList[0]['farm_name'];
-            }
+            $data = $this->service->getFarmsAndInspections($farmId);
+        }else{
+            $data['farms'] = $this->service->getFarmslist();
+            $data['inspections'] = [
+                'farmId' => 0,
+                'list' => [],
+                'farmName' => ''
+            ];
         }
 
         return Inertia::render('Inspections/Index', [
-            'inspections' => $inspections,
-            'farms' => $farms
+            'inspections' => $data['inspections'],
+            'farms' => $data['farms'],
         ]);
 
     }
@@ -102,31 +93,11 @@ class InspectionController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return Response
+     * @return array
      * @throws Exception
      */
-    public function show(int $id): Response
+    public function show(int $id): array
     {
-        $inspections = $this->service->getById($id);
-        return Inertia::render('Inspections/New',[
-            'inspections' => $inspections
-            ],
-        );
+        return $this->service->getById($id);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @return RedirectResponse
-     * @throws Exception
-     */
-    public function update(Request $request): RedirectResponse
-    {
-        $payload = $request->all();
-        $this->service->update($payload);
-        return to_route('farms.list');
-    }
-
-
 }

@@ -20,7 +20,7 @@
                 <div class="sm:col-span-4">
 
                   <div class="mt-2">
-                    <Listbox as="div" v-model="selectedFarm" @change="onFarmSelected">
+                    <Listbox as="div" v-model="selectedFarm">
                       <ListboxLabel class="block text-sm font-medium leading-6 text-gray-900">Farm</ListboxLabel>
                       <div class="relative mt-2">
                         <ListboxButton class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -65,7 +65,6 @@
         </div>
       </div>
 
-
       <div v-if="inspections.farmId !== 0">
         <div class="relative my-5 mx-10">
           <div class="absolute inset-0 flex items-center" aria-hidden="true">
@@ -87,7 +86,9 @@
 
         <div class="bg-gray-50">
           <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl px-4 py-5">
-            <Table :tableDetails="tableInspectionsDetails"/>
+            <Table :tableDetails="tableInspectionsDetails" 
+                   :isInspections="true"
+                   @get-inspection-details="getInspectionDetails"/>
           </div>
         </div>
       </div>
@@ -110,7 +111,7 @@
         </div>
       </div>
 
-
+      <SlideOver :open="openSlideOver" :info="inspection"/>
     </div>
   </div>
 
@@ -121,27 +122,24 @@
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import Table from '../../Shared/TableDefault.vue';
+import SlideOver from '../../Shared/SlideOver.vue';
 
 export default {
   name: 'Inspections/List',
 
   components: {
-    Table,
+    Table, SlideOver,
     Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions,
     CheckIcon, ChevronUpDownIcon
   },
 
   props: {
     farms: Object,
-    inspections: Object
+    inspections: Object,
   },
 
   async created() {
     this.selectedFarm = { id: 0, name: 'Select a farm' };
-    // if (this.selectedFarm.id !== 0){
-    //   await this.getInspections();
-    //   // this.tableInspectionsDetails.rows = await this.getInspectionsRows();
-    // }
   },
 
   data() {
@@ -149,10 +147,10 @@ export default {
       header: {
         title: 'Inspections List',
       },
+      openSlideOver: false,
       selectedFarm: null,
       tableInspectionsDetails: {
-        editlink: '/inspections/new',
-
+        editlink: '/inspections/show',
         title: 'Inspections List',
         description: 'A list of all turbines inspections of the farm.',
         button: {
@@ -169,6 +167,7 @@ export default {
         ],
         rows: [],
       },
+      inspection: null,
     }
   },
 
@@ -194,10 +193,14 @@ export default {
       this.tableInspectionsDetails.rows = await this.getInspectionsRows();
     },
 
-    onFarmSelected() {
-      if (this.selectedFarm.id !== 0) {
-        this.getInspections();
-      }
+    async getInspectionDetails(inspectionId) {
+      this.openSlideOver = false;
+      this.inspection = {};
+
+      const url = `/inspections/show/${inspectionId}`;
+      const response = await axios.get(url);      
+      this.inspection = response.data;
+      this.openSlideOver = true;
     },
 
     getInspectionsRows(newInspections) {

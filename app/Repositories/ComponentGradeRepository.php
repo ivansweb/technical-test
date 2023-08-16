@@ -26,4 +26,11 @@ class ComponentGradeRepository extends Repository
         parent::__construct($model);
     }
 
+    public function getByInspectionId(int $idInspection): mixed
+    {
+        return $this->model
+            ->where('inspection_id', $idInspection)
+            ->get();
+    }
+
 }

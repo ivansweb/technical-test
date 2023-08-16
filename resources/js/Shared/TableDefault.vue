@@ -33,9 +33,16 @@
                 <td v-for="r in row" :key="row.id"
                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ r }}</td>
                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                  <Link :href="`${tableDetails.editlink}/${row[0]}`" class="text-indigo-600 hover:text-indigo-900">
-                    Edit
-                  </Link>
+                  <div v-if="!isInspections">
+                    <Link :href="`${tableDetails.editlink}/${row[0]}`" class="text-indigo-600 hover:text-indigo-900">
+                      Edit
+                    </Link>
+                  </div>
+                  <div v-else>
+                    <button @click="getInspectionsDetails(row[0])" class="text-indigo-600 hover:text-indigo-900">
+                      Show
+                    </button>
+                  </div>
                 </td>
               </tr>
               </tbody>
@@ -54,9 +61,8 @@ export default {
   name: 'Registers/Farms/Index',
 
   props: {
-    tableDetails: {
-      type: Object,
-    }
+    tableDetails: Object,
+    isInspections: Boolean
   },
 
   components: {
@@ -67,6 +73,12 @@ export default {
     return {
 
     }
-  }
+  },
+
+  methods: {
+    getInspectionsDetails(id) {
+      this.$emit('get-inspection-details', id);
+    },
+  },
 }
 </script>

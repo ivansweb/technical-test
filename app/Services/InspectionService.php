@@ -19,7 +19,6 @@ class InspectionService extends Service
 
     public ComponentGradeRepository $componentGradeRepository;
 
-
     public function __construct(
         InspectionRepository $repository,
         FarmService $farmService,
@@ -34,6 +33,36 @@ class InspectionService extends Service
         $this->componentGradeRepository = $componentGradeRepository;
 
         parent::__construct($repository);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getFarmsAndInspections(int $farmId): array
+    {
+        $farms = $this->getFarmslist();
+
+        $farm = $this->getFarm($farmId);
+
+        $inspections = [
+            'farmId' => $farmId,
+            'list' => [],
+            'farmName' => $farm['name'] ?? ''
+        ];
+
+        if ($inspections['farmId'] !== 0) {
+            $inspectionsList = $this->getInspectionsByFarm($inspections['farmId']);
+
+            if (!$inspectionsList->isEmpty()) {
+                $inspections['list'] = $inspectionsList->toArray();
+                $inspections['farmName'] = $inspectionsList[0]['farm_name'];
+            }
+        }
+
+        return [
+            'inspections' => $inspections,
+            'farms' => $farms
+        ];
     }
 
     public function create(array $params = []): mixed
@@ -134,6 +163,28 @@ class InspectionService extends Service
     public function getInspectionsByFarm(int $id)
     {
         return $this->repository->getInspectionsByFarm($id);
+    }
+
+    public function getById(int $id = null): array
+    {
+        $inspection = $this->repository->getById($id);
+        $turbine = $inspection->turbine;
+        $componentGrades = $this->componentGradeRepository->getByInspectionId($id);
+        $componentGrades = $componentGrades->map(function ($componentGrade) {
+            return [
+                'componentName' => $componentGrade->component->name,
+                'grade' => $componentGrade->grade->name,
+                'value' => $componentGrade->grade->value,
+            ];
+        });
+
+        return [
+            'inspectionId' => $inspection->id,
+            'farmId' => $turbine->farm_id,
+            'turbine' => $turbine->model . " - " . $turbine->serial_number,
+            'inspectionDate' => $inspection->inspection_date,
+            'componentGrades' => $componentGrades,
+        ];
     }
 
 }
