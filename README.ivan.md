@@ -54,7 +54,7 @@ cd technical-test
   - Registration and editing.
   - Registration and editing of turbines for each wind farm.
 - Inspections.
-  - Create inspections per wind farm.
+  - Create turbine inspections per wind farm.
   - View the inspections already carried out.
 
 ## Future plans
